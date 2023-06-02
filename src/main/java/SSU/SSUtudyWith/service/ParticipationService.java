@@ -2,6 +2,7 @@ package SSU.SSUtudyWith.service;
 
 import SSU.SSUtudyWith.domain.Participation;
 import SSU.SSUtudyWith.domain.Study;
+import SSU.SSUtudyWith.domain.StudyStatus;
 import SSU.SSUtudyWith.domain.User;
 import SSU.SSUtudyWith.repository.ParticipationRepository;
 import SSU.SSUtudyWith.repository.StudyRepository;
@@ -33,7 +34,11 @@ public class ParticipationService {
         Study findStudy = studyRepository.findById(studyId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 스터디가 존재하지 않습니다."));
 
+        if((findStudy.getUserCount() - 1) == findUser.getParticipations().size()){
+            findStudy.changeStatus(StudyStatus.COMPLETE);
+        }
         participationRepository.save(new Participation(findUser, findStudy));
+
         return true;
     }
 
@@ -51,8 +56,11 @@ public class ParticipationService {
 
         Participation findParticipation = participationRepository.findByUserAndStudy(findUser, findStudy);
 
-        findUser.getParticipations().remove(findParticipation);
-        findStudy.getParticipations().remove(findParticipation);
+        findParticipation.remove(findParticipation);
+
+        //한명이라도 나가면 다시 모집중
+        findStudy.changeStatus(StudyStatus.INVITING);
+
         participationRepository.deleteByUserAndStudy(findUser, findStudy);
 
         return false;

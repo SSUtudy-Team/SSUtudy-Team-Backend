@@ -41,5 +41,10 @@ public class Participation {
         user.getParticipations().add(this);
     }
 
+    public void remove(Participation participation) {
+        study.getParticipations().remove(participation);
+        user.getParticipations().remove(participation);
+    }
+
 
 }
