@@ -1,5 +1,6 @@
 package SSU.SSUtudyWith.dto.study;
 
+import SSU.SSUtudyWith.domain.Study;
 import SSU.SSUtudyWith.domain.StudyStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,18 @@ public class StudyRankResponseDto {
                 .content(dto.getContent())
                 .userCount(dto.getUserCount())
                 .curUserCount(dto.getCurUserCount())
+                .build();
+    }
+
+    public static StudyRankResponseDto create(Study study) {
+        return StudyRankResponseDto.builder()
+                .department(study.getSubject().getDepartment())
+                .className(study.getSubject().getClassName())
+                .studyStatus(study.getStatus())
+                .title(study.getTitle())
+                .content(study.getContent())
+                .userCount(study.getUserCount())
+                .curUserCount(study.getParticipations().size())
                 .build();
     }
 

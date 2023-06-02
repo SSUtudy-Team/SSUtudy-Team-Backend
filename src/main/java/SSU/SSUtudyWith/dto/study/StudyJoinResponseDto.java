@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Builder
 public class StudyJoinResponseDto {
-    @NotBlank(message = "제목을 입력해주세요")
+
     private String title; // 제목만 출력
 
 }
