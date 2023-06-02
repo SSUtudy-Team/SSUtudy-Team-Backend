@@ -148,7 +148,7 @@ public class UserService {
     public UserFindDto search(Long userId) {
         User findUser = userRepository.findById(userId)
                 .orElseThrow(()-> new EntityNotFoundException("해당하는 유저가 없습니다."));
-        System.out.println(findUser.getCategoryUsers());
+
         List<String> categoryList = findUser.getCategoryUsers().stream()
                 .map(categoryUser -> categoryUser.getCategory())
                 .map(category -> category.getName())
@@ -166,7 +166,7 @@ public class UserService {
 
     public User find(Long userId){
         User findUser = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException());
+                .orElseThrow(() -> new EntityNotFoundException("해당하는 유저가 없습니다."));
         return findUser;
     }
 

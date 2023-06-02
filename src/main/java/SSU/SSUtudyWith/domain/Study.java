@@ -64,5 +64,10 @@ public class Study {
         this.user = user;
     }
 
+
+    public void changeStatus(StudyStatus status) {
+        this.status = status;
+    }
+
 }
 

@@ -31,11 +31,10 @@ public class UserController {
     /**
      * 유저 생성
      */
-    @PostMapping("")
+    @PostMapping()
     public ResponseEntity<ApiResponse> join(@RequestBody @Valid UserJoinDto userJoinDto) {
         Long id= userService.join(userJoinDto);
         return ResponseEntity.ok(ApiResponse.success("유저 가입 성공", id));
-
     }
 
     /**
@@ -77,7 +76,7 @@ public class UserController {
     }
 
     /**
-     * 내가 만든 스터디 조회(v1)
+     * 내가 만든 스터디 조회
      */
     @GetMapping("/own/{userId}")
     public ResponseEntity<ApiResponse> myStudy(@PathVariable("userId") Long userId) {

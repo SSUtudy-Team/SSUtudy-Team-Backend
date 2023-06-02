@@ -1,15 +1,20 @@
 package SSU.SSUtudyWith.service;
 
 import SSU.SSUtudyWith.domain.*;
+import SSU.SSUtudyWith.dto.category.CategoryScoreDto;
 import SSU.SSUtudyWith.dto.study.StudyOwnResponseDto;
 import SSU.SSUtudyWith.dto.study.StudyRequestDto;
 import SSU.SSUtudyWith.repository.CategoryStudyRepository;
+import SSU.SSUtudyWith.repository.ParticipationRepository;
 import SSU.SSUtudyWith.repository.StudyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +24,7 @@ import java.util.stream.Collectors;
 public class StudyService {
 
     private final StudyRepository studyRepository;
+    private final ParticipationRepository participationRepository;
     private final CategoryStudyRepository categoryStudyRepository;
 
     /**
@@ -42,6 +48,9 @@ public class StudyService {
             categoryStudyRepository.save(categoryStudy);
             study.getCategoryStudies().add(categoryStudy);
         }
+
+        // 자기자신 포함
+        participationRepository.save(new Participation(user, study));
 
         Study saveStudy = studyRepository.save(study);
         return saveStudy.getId();
@@ -86,6 +95,34 @@ public class StudyService {
         return studyRepository.findAll();
     }
 
+
+    /**
+     * 스터디 시간순 조회
+     */
+    public List<Study> findAllByTime() {
+        List<Study> studyList = studyRepository.findAll();
+
+        //정렬
+        Comparator<Study> comparator = (s1, s2) -> s1.getMadeTime().compareTo(s2.getMadeTime());
+
+        Collections.sort(studyList, comparator.reversed());
+        return studyList;
+    }
+
+
+    /**
+     * 스터디 종료
+     */
+    public void end(Long studyId) {
+        Study findStudy = studyRepository.findById(studyId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 스터디가 존재하지 않습니다."));
+
+        //아마 개설자 확인 필요,,
+
+        //상태 변경
+        findStudy.changeStatus(StudyStatus.END);
+    }
+
     /**
      * 스터디 삭제
      */
@@ -95,6 +132,8 @@ public class StudyService {
                 .orElseThrow(() -> new EntityNotFoundException("해당 스터디가 존재하지 않습니다."));
         studyRepository.delete(study);
     }
+
+
 
     /**
      * 스터디 수정

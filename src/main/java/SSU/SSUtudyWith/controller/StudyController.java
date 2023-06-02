@@ -1,9 +1,11 @@
 package SSU.SSUtudyWith.controller;
 
 import SSU.SSUtudyWith.common.ApiResponse;
+import SSU.SSUtudyWith.domain.Study;
 import SSU.SSUtudyWith.domain.User;
 import SSU.SSUtudyWith.dto.category.CategoryResponseDto;
 import SSU.SSUtudyWith.dto.study.StudyOwnResponseDto;
+import SSU.SSUtudyWith.dto.study.StudyRankResponseDto;
 import SSU.SSUtudyWith.dto.study.StudyRequestDto;
 import SSU.SSUtudyWith.dto.study.StudyJoinResponseDto;
 import SSU.SSUtudyWith.service.CategoryService;
@@ -16,7 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,7 +48,7 @@ public class StudyController {
      * 생성된 study id 전달? 아니면 상태만 전달?
      */
     @PostMapping("/{userId}")
-    public ResponseEntity<ApiResponse> makeStudy(@RequestBody StudyRequestDto request, @PathVariable("userId") Long userId) {
+    public ResponseEntity<ApiResponse> makeStudy(@RequestBody @Valid StudyRequestDto request, @PathVariable("userId") Long userId) {
         User findUser = userService.find(userId);
         Long id = studyService.makeStudy(request, findUser);
         return ResponseEntity.ok(ApiResponse.success("스터디 생성 성공", id));
@@ -64,15 +68,37 @@ public class StudyController {
     /**
      * 스터디 삭제
      */
-    @DeleteMapping("/delete/{studyId}")
+    @DeleteMapping("/{studyId}")
     public ResponseEntity<ApiResponse> deleteStudy(@PathVariable("studyId") Long studyId) {
         studyService.delete(studyId);
         return ResponseEntity.ok(ApiResponse.success("스터디 삭제 성공"));
     }
 
+    /**
+     * 스터디 종료
+     */
+    @PostMapping("/end/{studyId}")
+    public ResponseEntity<ApiResponse> endStudy(@PathVariable("studyId") Long studyId) {
+        studyService.end(studyId);
+        return ResponseEntity.ok(ApiResponse.success("스터디 종료 성공"));
+    }
 
     /**
-     * 스터디 수정 -> 어디까지 수정 가능?
+     * 스터디 시간순 정렬
+     */
+    @GetMapping("/time")
+    public ResponseEntity<ApiResponse> getStudyByTime() {
+        List<Study> studyList = studyService.findAllByTime();
+
+        List<StudyRankResponseDto> dtos = studyList.stream()
+                .map(StudyRankResponseDto::create)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(ApiResponse.success("시간순 스터디 출력 성공", dtos));
+    }
+
+
+    /**
+     * 스터디 수정 -> 일단 보류
      */
 
     @Data
