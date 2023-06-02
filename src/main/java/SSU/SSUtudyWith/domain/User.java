@@ -14,29 +14,22 @@ import java.util.stream.Collectors;
 
 @Entity
 @Getter
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
-    @Column(length = 100, nullable = false, unique = true)
-    @NotNull
     private String studentId;
 
-    @Column(length = 300, nullable = false)
-    @NotNull
+
     private String password;
 
-    @Column(length = 300, nullable = false)
     private String name;
 
-    @Column(length = 300, nullable = false)
     private int grade;
 
-    @Column(length = 300, nullable = false)
     private String department;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -45,18 +38,17 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Participation> participations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<CategoryUser> categoryUsers = new ArrayList<>();
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Builder.Default
+    @ElementCollection(fetch = FetchType.LAZY)
     @NotNull
     private List<String> roles = new ArrayList<>();
 
 
     //--생성자--//
-    public User(Long id, String studentId, String password, String name, int grade, String department, List<String> roles) {
-        this.id = id;
+    @Builder
+    public User(String studentId, String password, String name, int grade, String department, List<String> roles) {
         this.studentId = studentId;
         this.password = password;
         this.name = name;
@@ -66,6 +58,7 @@ public class User implements UserDetails {
     }
 
     //--업데이트 메소드--//
+    @Builder
     public void updateUser(String password, String name, int grade, String department) {
         this.password = password;
         this.name = name;

@@ -31,7 +31,7 @@ public class UserController {
     /**
      * 유저 생성
      */
-    @PostMapping("/api/v1/users")
+    @PostMapping("")
     public ResponseEntity<ApiResponse> join(@RequestBody @Valid UserJoinDto userJoinDto) {
         Long id= userService.join(userJoinDto);
         return ResponseEntity.ok(ApiResponse.success("유저 가입 성공", id));
@@ -41,7 +41,7 @@ public class UserController {
     /**
      * 유저 로그인
      */
-    @PostMapping("/api/v1/users/login")
+    @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid UserLogInDto userRequestDto) {
         String token = userService.login(userRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(new Result(token));
@@ -50,7 +50,7 @@ public class UserController {
     /**
      * 유저 조회
      */
-    @GetMapping("/api/v1/users/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<ApiResponse> findUser(@PathVariable("userId") Long userId) {
         UserFindDto dto = userService.search(userId);
         return ResponseEntity.ok(ApiResponse.success("유저 조회 성공", dto));
@@ -59,7 +59,7 @@ public class UserController {
     /**
      * 유저 정보 업데이트
      */
-    @PutMapping("/api/v1/users/{userId}")
+    @PutMapping("/{userId}")
     public ResponseEntity<ApiResponse> update(@RequestBody @Valid UserUpdateDto userUpdateDto, @PathVariable("userId") Long userId){
 
         userService.update(userId, userUpdateDto);

@@ -47,10 +47,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter { //스프�
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/v1/users/login").permitAll()
-                .antMatchers("/**").hasRole("USER")
-//                .antMatchers("/**").permitAll() //토큰 없을 때 test용..사용할 때 위 3줄은 주석처리
+//                .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+//                .antMatchers(HttpMethod.POST, "/api/v1/users/login").permitAll()
+//                .antMatchers("/**").hasRole("USER")
+                .antMatchers("/**").permitAll() //토큰 없을 때 test용..사용할 때 위 3줄은 주석처리
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);

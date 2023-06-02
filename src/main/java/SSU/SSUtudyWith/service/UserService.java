@@ -36,7 +36,7 @@ public class UserService {
      */
     public List<StudyJoinResponseDto> getJoinStudy(Long userId) {
         User findUser = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
+                .orElseThrow(() -> new EntityNotFoundException());
 
         List<StudyJoinResponseDto> studyJoinResponseDtos = new ArrayList<>();
         List<Participation> participations = findUser.getParticipations();
@@ -147,12 +147,11 @@ public class UserService {
      */
     public UserFindDto search(Long userId) {
         User findUser = userRepository.findById(userId)
-                .orElseThrow(()->new EntityNotFoundException("해당 유저가 없습니다."));
-
+                .orElseThrow(()-> new EntityNotFoundException("해당하는 유저가 없습니다."));
+        System.out.println(findUser.getCategoryUsers());
         List<String> categoryList = findUser.getCategoryUsers().stream()
                 .map(categoryUser -> categoryUser.getCategory())
-                .map(CategoryResponseDto::of)
-                .map(dto -> dto.getName())
+                .map(category -> category.getName())
                 .collect(Collectors.toList());
 
         return UserFindDto.builder()
@@ -163,35 +162,37 @@ public class UserService {
                 .department(findUser.getDepartment())
                 .categoryList(categoryList)
                 .build();
+    }
 
+    public User find(Long userId){
+        User findUser = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException());
+        return findUser;
     }
 
     /**
      * 유저 회원가입
      */
     @Transactional
-    public Long join(UserJoinDto userJoinDTO) {
+    public Long join(UserJoinDto userJoinDto) {
 
-        User newUser = User.builder()
-                .studentId(userJoinDTO.getStudentId())
-                .password(passwordEncoder.encode(userJoinDTO.getPassword()))
-                .name(userJoinDTO.getName())
-                .grade(userJoinDTO.getGrade())
-                .department(userJoinDTO.getDepartment())
-                .roles(Collections.singletonList("ROLE_USER")) // 최초 가입시 USER 로 설정
-                .build();
+        User newUser = new User(userJoinDto.getStudentId(), passwordEncoder.encode(userJoinDto.getPassword()),userJoinDto.getName(),
+                userJoinDto.getGrade(), userJoinDto.getDepartment(), Collections.singletonList("ROLE_USER"));
 
-        List<Category> categoryList = userJoinDTO.getCategoryDtoList().stream()
+
+        List<Category> categoryList = userJoinDto.getCategoryCodeDtos().stream()
                 .map(categoryCodeDto -> Category.valueOf(categoryCodeDto.getCategoryCode()))
                 .collect(Collectors.toList());
 
         for (Category category : categoryList) {
-            CategoryUser categoryUser = categoryUserRepository.save(new CategoryUser(newUser, category));
+            CategoryUser categoryUser = new CategoryUser(newUser, category);
+            categoryUserRepository.save(categoryUser);
             newUser.getCategoryUsers().add(categoryUser);
         }
 
-        userRepository.save(newUser);
 
+        userRepository.save(newUser);
+        System.out.println(newUser.getCategoryUsers());
         return newUser.getId();
     }
 
@@ -211,7 +212,7 @@ public class UserService {
 
         // 카테고리 설정은 따로
         updateUser.getCategoryUsers().clear();
-        List<Category> categoryList = userUpdateDto.getCategoryCodeDtoList().stream()
+        List<Category> categoryList = userUpdateDto.getCategoryCodeDtos().stream()
                 .map(dto -> Category.valueOf(dto.getCategoryCode()))
                 .collect(Collectors.toList());
 

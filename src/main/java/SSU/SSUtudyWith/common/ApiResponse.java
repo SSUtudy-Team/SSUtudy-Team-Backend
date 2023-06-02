@@ -25,11 +25,4 @@ public class ApiResponse {
                 .message(message)
                 .build();
     }
-
-    public static ApiResponse fail(String message) {
-        return ApiResponse.builder()
-                .success(false)
-                .message(message)
-                .build();
-    }
 }

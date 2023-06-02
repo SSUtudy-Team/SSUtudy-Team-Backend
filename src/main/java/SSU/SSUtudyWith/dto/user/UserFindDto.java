@@ -1,14 +1,14 @@
 package SSU.SSUtudyWith.dto.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Builder
-@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class UserFindDto {
 
@@ -23,16 +23,6 @@ public class UserFindDto {
 
     private String department;
 
-    private List<String> categoryList = new ArrayList<>();
-
-
-    public UserFindDto(String studentId, String password, String name, int grade, String department, List<String> categoryList) {
-        this.studentId = studentId;
-        this.password = password;
-        this.name = name;
-        this.grade = grade;
-        this.department = department;
-        this.categoryList = categoryList;
-    }
+    private List<String> categoryList;
 
 }
