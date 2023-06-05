@@ -41,7 +41,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<CategoryUser> categoryUsers = new ArrayList<>();
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     @NotNull
     private List<String> roles = new ArrayList<>();
 
