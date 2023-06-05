@@ -11,7 +11,7 @@ env:
   S3_BUCKET_NAME: ssutudy-with-bucket
   AWS_REGION: ap-northeast-2
 
-# workflow는 한개 이상의 job을 가지며, 각 job은 여러 step에 따라 단계를 나눌 수 있습니다.
+# workflow는 한개 이상의 job을 가지며, 각 job은 여러 step에 따라 단계를 나눌 수 있습니다
 jobs:
   build:
     # 해당 workflow를 어떤 OS 환경에서 실행할 것인지 지정
