@@ -98,7 +98,7 @@ public class StudyController {
 
 
     /**
-     * 스터디 수정 -> 일단 보류
+     * 스터디 수정
      */
 
     @Data
