@@ -202,7 +202,7 @@ public class UserService {
     @Transactional
     public void update(Long userId, UserUpdateDto userUpdateDto){
 
-        User updateUser = userRepository.findById(userId)
+        User updateUser = userRepository.findById(userId)  //find ByStudent_Id로 안해도 됨?
                 .orElseThrow(()-> new EntityNotFoundException("해당 유저가 존재하지 않습니다."));
 
         // password 인코딩
