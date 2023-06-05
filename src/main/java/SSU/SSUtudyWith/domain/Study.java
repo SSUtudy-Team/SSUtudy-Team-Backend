@@ -41,7 +41,7 @@ public class Study {
     private List<Participation> participations = new ArrayList<>();  // 해당 스터디에 참여한 유저
 
 
-    //--연관관계 메소드--//
+    //--연관관계 메소드-//
     public void setUser(User user) {
         this.user = user;
         user.getStudies().add(this);
