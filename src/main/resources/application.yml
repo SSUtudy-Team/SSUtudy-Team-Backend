@@ -4,13 +4,22 @@
 #    username: sa
 #    password:
 #    driver-class-name: org.h2.Driver
+
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://ssutudy-db.c23hmmpaoxgz.ap-northeast-2.rds.amazonaws.com:3306/SSUtudy?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+#    username: ssutudy06
+#    password: ssutudy0629
 #
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://ssutudy-db.c23hmmpaoxgz.ap-northeast-2.rds.amazonaws.com:3306/SSUtudy?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
-    username: ssutudy06
-    password: ssutudy0629
+    url: jdbc:mysql://ssutudy-with.c8ydbsyobvbn.ap-northeast-2.rds.amazonaws.com:3306/SSUtudy?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: ssutudy-with
+    password: ssutudy!!
+
 
 
   jpa:
