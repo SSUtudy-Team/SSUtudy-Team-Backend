@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/studies")
 public class StudyController {
 
     private final StudyService studyService;
@@ -34,7 +33,7 @@ public class StudyController {
     /**
      * 스터디 만들 때 카테고리 넘거주기
      */
-    @GetMapping("/make")
+    @GetMapping("/api/v1/users/categories")
     public ResponseEntity getCategories() {
         List<CategoryResponseDto> allCategories = categoryService.getAllCategories();
 
@@ -47,7 +46,7 @@ public class StudyController {
      * user id 따로 전달 안하고 만드는 방법 없나? -> 클라이언트한테 물어보기
      * 생성된 study id 전달? 아니면 상태만 전달?
      */
-    @PostMapping("/{userId}")
+    @PostMapping("/api/v1/studies/{userId}")
     public ResponseEntity<ApiResponse> makeStudy(@RequestBody @Valid StudyRequestDto request, @PathVariable("userId") Long userId) {
         User findUser = userService.find(userId);
         Long id = studyService.makeStudy(request, findUser);
@@ -58,7 +57,7 @@ public class StudyController {
     /**
      * 스터디 조회
      */
-    @GetMapping("/{studyId}")
+    @GetMapping("/api/v1/studies/{studyId}")
     public ResponseEntity<ApiResponse> getStudy(@PathVariable("studyId") Long studyId) {
         StudyOwnResponseDto response = studyService.search(studyId);
         return ResponseEntity.ok(ApiResponse.success("스터디 조회 성공", response));
@@ -68,7 +67,7 @@ public class StudyController {
     /**
      * 스터디 삭제
      */
-    @DeleteMapping("/{studyId}")
+    @DeleteMapping("/api/v1/studies/{studyId}")
     public ResponseEntity<ApiResponse> deleteStudy(@PathVariable("studyId") Long studyId) {
         studyService.delete(studyId);
         return ResponseEntity.ok(ApiResponse.success("스터디 삭제 성공"));
@@ -77,7 +76,7 @@ public class StudyController {
     /**
      * 스터디 종료
      */
-    @PostMapping("/end/{studyId}")
+    @PostMapping("/api/v1/studies/end/{studyId}")
     public ResponseEntity<ApiResponse> endStudy(@PathVariable("studyId") Long studyId) {
         studyService.end(studyId);
         return ResponseEntity.ok(ApiResponse.success("스터디 종료 성공"));
@@ -86,7 +85,7 @@ public class StudyController {
     /**
      * 스터디 시간순 정렬
      */
-    @GetMapping("/time")
+    @GetMapping("/api/v1/studies/time")
     public ResponseEntity<ApiResponse> getStudyByTime() {
         List<Study> studyList = studyService.findAllByTime();
 

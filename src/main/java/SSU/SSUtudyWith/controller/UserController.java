@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/users")
 public class UserController {
     private final UserService userService;
     private final StudyService studyService;
@@ -31,7 +30,7 @@ public class UserController {
     /**
      * 유저 생성
      */
-    @PostMapping()
+    @PostMapping("/api/v1/users")
     public ResponseEntity<ApiResponse> join(@RequestBody @Valid UserJoinDto userJoinDto) {
         Long id= userService.join(userJoinDto);
         return ResponseEntity.ok(ApiResponse.success("유저 가입 성공", id));
@@ -40,7 +39,7 @@ public class UserController {
     /**
      * 유저 로그인
      */
-    @PostMapping("/login")
+    @PostMapping("/api/v1/users/login")
     public ResponseEntity login(@RequestBody @Valid UserLogInDto userRequestDto) {
         String token = userService.login(userRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(new Result(token));
@@ -49,7 +48,7 @@ public class UserController {
     /**
      * 유저 조회
      */
-    @GetMapping("/{userId}")
+    @GetMapping("/api/v1/users/{userId}")
     public ResponseEntity<ApiResponse> findUser(@PathVariable("userId") Long userId) {
         UserFindDto dto = userService.search(userId);
         return ResponseEntity.ok(ApiResponse.success("유저 조회 성공", dto));
@@ -58,7 +57,7 @@ public class UserController {
     /**
      * 유저 정보 업데이트
      */
-    @PutMapping("/{userId}")
+    @PutMapping("/api/v1/users/{userId}")
     public ResponseEntity<ApiResponse> update(@RequestBody @Valid UserUpdateDto userUpdateDto, @PathVariable("userId") Long userId){
 
         userService.update(userId, userUpdateDto);
@@ -78,7 +77,7 @@ public class UserController {
     /**
      * 내가 만든 스터디 조회
      */
-    @GetMapping("/own/{userId}")
+    @GetMapping("/api/v1/users/own/{userId}")
     public ResponseEntity<ApiResponse> myStudy(@PathVariable("userId") Long userId) {
 
         List<StudyOwnResponseDto> ownStudies = userService.getMyStudy(userId);
@@ -89,7 +88,7 @@ public class UserController {
     /**
      *  내가 참여한 스터디 조회
      */
-    @GetMapping("/join/{userId}")
+    @GetMapping("/api/v1/users/join/{userId}")
     public Result joinStudy(@PathVariable("userId") Long userId) {
         List<StudyJoinResponseDto> joinStudies = userService.getJoinStudy(userId);
 
@@ -99,7 +98,7 @@ public class UserController {
     /**
      * 추천 스터디 출력
      */
-    @GetMapping("/recommend/{userId}")
+    @GetMapping("/api/v1/users/recommend/{userId}")
     public Result recommendStudy(@PathVariable("userId") Long userId) {
         List<CategoryScoreDto> top10Study = userService.getTop10Study(userId);
         List<StudyRankResponseDto> rankDtoList = new ArrayList<>();
@@ -116,7 +115,7 @@ public class UserController {
     /**
      * 메인 화면 출력 -> 내가 참여한 스터디 + 유저 별 추천 스터디
      */
-    @GetMapping("/home/{userId}")
+    @GetMapping("/api/v1/users/home/{userId}")
     public ResponseEntity<ApiResponse> mainPage(@PathVariable("userId") Long userId) {
 
         List<StudyJoinResponseDto> joinStudies = userService.getJoinStudy(userId);
@@ -133,11 +132,13 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.success("메인 화면 출력 성공", new ResultHome(joinStudies, dtoList)));
     }
 
-    @PostMapping("/authtest")
-    public String authtest() {
-        return "auth success";
-    }
 
+
+//    @PostMapping("/authtest")
+//    public String authtest() {
+//        return "auth success";
+//    }
+//
 
     //--데이터 가공 메소드--//
     @Data
