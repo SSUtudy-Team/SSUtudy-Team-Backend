@@ -23,7 +23,6 @@ public class User implements UserDetails {
 
     private String studentId;
 
-
     private String password;
 
     private String name;
