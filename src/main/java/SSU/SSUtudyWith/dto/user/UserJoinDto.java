@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 public class UserJoinDto {
     @NotBlank(message = "학번을 입력해주세요.")
-    @Pattern(message = "숫자만 입력해주세요.", regexp="[0-9]+")
+    @Pattern(regexp="^[0-9]+$", message = "숫자만 입력해주세요.")
     @Size(message = "학번은 8자리입니다.", min = 8, max = 8)
     private String studentId;
 
@@ -21,6 +21,8 @@ public class UserJoinDto {
     private String password;
 
     @NotBlank(message = "이름을 입력해주세요.")
+    @Pattern(regexp="^[가-힣]*$", message = "한글만 입력해주세요.")
+    @Size(min = 3, max = 4, message = "이름은 3글자 이상 4글자 이하입니다.")
     private String name;
 
     @NotNull(message = "학년을 선택해주세요")
