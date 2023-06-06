@@ -3,6 +3,7 @@ package SSU.SSUtudyWith.common.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,6 +18,11 @@ public class ErrorHandler {
     public ResponseEntity<ApiExceptionResponse> handleEntityNouFound(EntityNotFoundException e) {
         ApiExceptionResponse response = ApiExceptionResponse.fail(401, HttpStatus.NOT_FOUND, e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiExceptionResponse> handleToken(AuthenticationException e) {
+        ApiExceptionResponse response = ApiExceptionResponse.fail(403, HttpStatus.FORBIDDEN, "권한이 없습니다.");
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
 
@@ -38,4 +44,5 @@ public class ErrorHandler {
         ApiExceptionResponse response = ApiExceptionResponse.fail(500, HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러");
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }
