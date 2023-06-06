@@ -16,8 +16,8 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://ssutudy-with.c8ydbsyobvbn.ap-northeast-2.rds.amazonaws.com:3306/SSUtudy?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
-    username: ssutudy-with
+    url: jdbc:mysql://ssutudy-with.c8ydbsyobvbn.ap-northeast-2.rds.amazonaws.com:3306/SSUTUDY?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: Lee
     password: ssutudy!!
 
 
