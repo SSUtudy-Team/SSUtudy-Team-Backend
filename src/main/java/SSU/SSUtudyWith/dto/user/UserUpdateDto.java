@@ -4,6 +4,7 @@ import SSU.SSUtudyWith.dto.category.CategoryCodeDto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +20,13 @@ public class UserUpdateDto {
     @NotBlank(message = "이름을 입력해주세요.")
     private String name;
 
-    @NotBlank(message = "학년을 선택해주세요.")
+    @NotNull(message = "학년을 선택해주세요.")
     private int grade;
 
     @NotBlank(message = "학과를 선택해주세요.")
     private String department;
 
-    @NotBlank(message = "관심 카테고리를 선택해주세요.")
+    @NotNull(message = "관심 카테고리를 선택해주세요.")
     @Size(message = "3개 이상의 카테고리를 선택해주세요.", min = 3)
     private List<CategoryCodeDto> categoryCodeDtos = new ArrayList<>();
 

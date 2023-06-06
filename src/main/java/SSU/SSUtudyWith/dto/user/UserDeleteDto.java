@@ -3,6 +3,7 @@ package SSU.SSUtudyWith.dto.user;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
@@ -10,7 +11,7 @@ import javax.validation.constraints.Size;
 @Data
 public class UserDeleteDto {
 
-    @NotBlank(message = "user_id를 입력해주세요.")
+    @NotNull(message = "user_id를 입력해주세요.")
     private Long userId;
 
     @NotBlank(message = "비밀번호를 입력하세요.")
