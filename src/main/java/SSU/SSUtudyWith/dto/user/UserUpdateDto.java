@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Builder
-@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class UserUpdateDto {
 //    @NotBlank(message = "비밀번호를 입력해주세요.")
@@ -30,4 +30,7 @@ public class UserUpdateDto {
     @Size(message = "3개 이상의 카테고리를 선택해주세요.", min = 3)
     private List<CategoryCodeDto> categoryCodeDtos = new ArrayList<>();
 
+    public UserUpdateDto(List<CategoryCodeDto> categoryCodeDtos) {
+        this.categoryCodeDtos = categoryCodeDtos;
+    }
 }
