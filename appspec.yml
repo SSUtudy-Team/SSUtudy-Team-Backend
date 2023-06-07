@@ -6,7 +6,7 @@ files:
     destination: /home/ubuntu/build/
 
 permissions:
-  - object: /
+  - object: /home/ubuntu
     pattern: "**"
     owner: ubuntu
     group: ubuntu
