@@ -201,7 +201,7 @@ public class UserService {
         User updateUser = userRepository.findById(userId)  //find ByStudent_Id로 안해도 됨?
                 .orElseThrow(()-> new EntityNotFoundException("해당 유저가 존재하지 않습니다."));
 
-        // password 인코딩
+
        // String encodePassWord = passwordEncoder.encode(userUpdateDto.getPassword());
 
         //updateUser.updateUser(updateUser.getPassword(), updateUser.getName(), updateUser.getGrade(), updateUser.getDepartment());
