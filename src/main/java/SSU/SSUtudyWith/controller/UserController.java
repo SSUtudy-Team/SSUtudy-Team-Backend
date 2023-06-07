@@ -40,9 +40,9 @@ public class UserController {
      * 유저 로그인
      */
     @PostMapping("/api/v1/users/login")
-    public ResponseEntity login(@RequestBody @Valid UserLogInDto userRequestDto) {
-        String token = userService.login(userRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(new Result(token));
+    public ResponseEntity<ApiResponse> login(@RequestBody @Valid UserLogInDto userRequestDto) {
+        UserLoginResponseDto dto = userService.login(userRequestDto);
+        return ResponseEntity.ok(ApiResponse.success("로그인 성공", dto));
     }
 
     /**

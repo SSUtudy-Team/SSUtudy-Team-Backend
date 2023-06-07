@@ -245,7 +245,7 @@ public class UserService {
      * 유저 로그인 -> 단순 조회?
      */
     @Transactional
-    public String login(UserLogInDto userLogInDto) {
+    public UserLoginResponseDto login(UserLogInDto userLogInDto) {
 
         User findUser = userRepository.findByStudentId(userLogInDto.getStudentId())
                 .orElseThrow(() -> new EntityNotFoundException("해당 유저가 존재하지 않습니다."));
@@ -255,6 +255,12 @@ public class UserService {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
 
-        return jwtTokenProvider.createToken(findUser.getStudentId(), findUser.getRoles());
+        String token = jwtTokenProvider.createToken(findUser.getStudentId(), findUser.getRoles());
+
+        return UserLoginResponseDto.builder()
+                .token(token)
+                .userId(findUser.getId())
+                .build();
     }
 }
+
