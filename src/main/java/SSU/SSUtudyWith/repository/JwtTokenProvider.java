@@ -24,7 +24,7 @@ public class JwtTokenProvider {
     private String secretKey = "webfirewood";
 
     // 토큰 유효시간 30분
-    private long tokenValidTime = 120 * 60 * 1000L; //2시간 
+    private long tokenValidTime = 1440 * 60 * 1000L; //24시간
 
     @Lazy
     private final UserDetailsService userDetailsService;
@@ -66,10 +66,13 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    // Request의 Header에서 token 값을 가져옵니다. "X-AUTH-TOKEN" : "TOKEN값'
+    // Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
     public String resolveToken(HttpServletRequest request) {
         return request.getHeader("Authorization");
     }
+
+    // Request의 Header에서 user id 값을 가져옵니다. "User_Id" : "Id'
+    public String findId(HttpServletRequest request) {return request.getHeader("User_Id");}
 
     // 토큰의 유효성 + 만료일자 확인
     public boolean validateToken(String jwtToken) {

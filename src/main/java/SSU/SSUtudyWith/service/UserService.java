@@ -251,7 +251,7 @@ public class UserService {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
 
-        String token = jwtTokenProvider.createToken(findUser.getStudentId(), findUser.getRoles());
+        String token = jwtTokenProvider.createToken(findUser.getId().toString(), findUser.getRoles());
 
         return UserLoginResponseDto.builder()
                 .token(token)

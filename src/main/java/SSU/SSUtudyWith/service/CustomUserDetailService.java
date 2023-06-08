@@ -17,8 +17,9 @@ public class CustomUserDetailService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String studentId){
-        return  userRepository.findByStudentId(studentId)
+    public UserDetails loadUserByUsername(String Id){
+
+        return  userRepository.findById(Long.parseLong(Id))
                 .orElseThrow(() -> new EntityNotFoundException("해당하는 유저가 없습니다."));
     }
 }
