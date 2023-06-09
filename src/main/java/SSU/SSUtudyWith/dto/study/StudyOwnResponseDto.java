@@ -36,6 +36,8 @@ public class StudyOwnResponseDto {
 
     private List<String> userName;  // 스터디 방 참여 유저 이름
 
-    private boolean joinOrNot; // 참여여뷰
+    private boolean joinOrNot; // 참여여부
+
+    private boolean mineOrNot;
 
 }

@@ -93,6 +93,7 @@ public class StudyService {
                 .categoryList(categoryList)
                 .userName(userList)
                 .joinOrNot(userList.contains(findUser.getName()))
+                .mineOrNot(findStudy.getUser().equals(findUser))
                 .build();
     }
 
