@@ -27,7 +27,18 @@ public class JwtAuthenticationFilter extends GenericFilterBean{
         }
     }
 
-    private boolean checkFindParam(String LastParam,String token){
+    private boolean checkParam(String token,ServletRequest request){
+
+        String uri = ((HttpServletRequest) request).getRequestURI();
+        String[] uriParts = uri.split("/");
+        String LastParam = uriParts[uriParts.length-1];
+        if(uri.contains("studies")){
+
+            return true;
+        }
+
+
+
         if(!isNumeric(LastParam))
         {
             return true;
@@ -45,20 +56,14 @@ public class JwtAuthenticationFilter extends GenericFilterBean{
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         // 헤더에서 JWT 를 받아옵니다.
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
-        String user_Id = jwtTokenProvider.findId((HttpServletRequest) request);
-
-        String uri = ((HttpServletRequest) request).getRequestURI();
-        String[] uriParts = uri.split("/");
-        String LastParam = uriParts[uriParts.length-1];
-
 
 
         // 유효한 토큰인지 확인합니다.
 
-        if (token != null && jwtTokenProvider.validateToken(token)&&checkFindParam(LastParam,token)) {
+        if (token != null && jwtTokenProvider.validateToken(token)&&checkParam(token,request)) {
 
 
-            System.out.println("@#@#@#@#@#"+user_Id+"#@#@#@#");
+
             // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             // SecurityContext 에 Authentication 객체를 저장합니다.
