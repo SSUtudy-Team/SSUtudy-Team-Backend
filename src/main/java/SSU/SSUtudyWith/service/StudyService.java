@@ -129,6 +129,7 @@ public class StudyService {
     /**
      * 스터디 종료
      */
+    @Transactional
     public void end(Long studyId) {
         Study findStudy = studyRepository.findById(studyId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 스터디가 존재하지 않습니다."));
