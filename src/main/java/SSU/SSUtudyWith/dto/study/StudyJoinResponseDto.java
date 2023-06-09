@@ -12,6 +12,8 @@ import javax.validation.constraints.NotBlank;
 @Builder
 public class StudyJoinResponseDto {
 
+    private Long studyId;
     private String title; // 제목만 출력
+
 
 }

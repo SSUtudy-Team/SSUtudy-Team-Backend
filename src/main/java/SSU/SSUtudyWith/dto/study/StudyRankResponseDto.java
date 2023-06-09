@@ -11,20 +11,22 @@ import lombok.Data;
 @Builder
 public class StudyRankResponseDto {
 
+    private Long studyId;
     private final String department;
     private final String className;
     private final String title;
 
     private final String content;
 
-    private int userCount;  // 최대 참여 인원
+    private final int userCount;  // 최대 참여 인원
 
     private int curUserCount;   // 현재 참여 인원
 
-    private StudyStatus studyStatus;    // 스터디방 상태 -> 모집중, 모집완료, 종료
+    private String studyStatus;    // 스터디방 상태 -> 모집중, 모집완료, 종료
 
     public static StudyRankResponseDto create(StudyOwnResponseDto dto) {
         return StudyRankResponseDto.builder()
+                .studyId(dto.getStudyId())
                 .department(dto.getSubject().getDepartment())
                 .className(dto.getSubject().getClassName())
                 .studyStatus(dto.getStudyStatus())
@@ -37,9 +39,10 @@ public class StudyRankResponseDto {
 
     public static StudyRankResponseDto create(Study study) {
         return StudyRankResponseDto.builder()
+                .studyId(study.getId())
                 .department(study.getSubject().getDepartment())
                 .className(study.getSubject().getClassName())
-                .studyStatus(study.getStatus())
+                .studyStatus(study.getStatus().getStatus())
                 .title(study.getTitle())
                 .content(study.getContent())
                 .userCount(study.getUserCount())

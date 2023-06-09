@@ -46,6 +46,7 @@ public class UserService {
                 Study findStudy = participation.getStudy();
                 studyJoinResponseDtos.add(StudyJoinResponseDto.builder()
                         .title(findStudy.getTitle())
+                        .studyId(findStudy.getId())
                         .build());
             }
         }
@@ -76,7 +77,7 @@ public class UserService {
                         .userCount(study.getUserCount())
                         .roomLink(study.getRoomLink())
                         .categoryList(categoryList)
-                        .studyStatus(study.getStatus())
+                        .studyStatus(study.getStatus().getStatus())
                         .build());
             }
         } else {

@@ -105,7 +105,7 @@ public class UserController {
 
         List<StudyRankResponseDto> dtoList = top10Study.stream()
                 .map(categoryScoreDto -> categoryScoreDto.getStudyId())
-                .map(i -> studyService.search(i))
+                .map(i -> studyService.getStudy(i))
                 .map(StudyRankResponseDto::create)
                 .collect(Collectors.toList());
 
@@ -125,7 +125,7 @@ public class UserController {
 
         List<StudyRankResponseDto> dtoList = top10Study.stream()
                 .map(categoryScoreDto -> categoryScoreDto.getStudyId())
-                .map(i -> studyService.search(i))
+                .map(i -> studyService.getStudy(i))
                 .map(StudyRankResponseDto::create)
                 .collect(Collectors.toList());
 

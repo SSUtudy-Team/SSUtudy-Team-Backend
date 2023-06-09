@@ -7,6 +7,7 @@ import SSU.SSUtudyWith.dto.study.StudyRequestDto;
 import SSU.SSUtudyWith.repository.CategoryStudyRepository;
 import SSU.SSUtudyWith.repository.ParticipationRepository;
 import SSU.SSUtudyWith.repository.StudyRepository;
+import SSU.SSUtudyWith.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,8 @@ import java.util.stream.Collectors;
 public class StudyService {
 
     private final StudyRepository studyRepository;
+
+    private final UserRepository userRepository;
     private final ParticipationRepository participationRepository;
     private final CategoryStudyRepository categoryStudyRepository;
 
@@ -59,9 +62,12 @@ public class StudyService {
     /**
      * 스터디 조회 (단일 조회)
      */
-    public StudyOwnResponseDto search(Long studyId) {
+    public StudyOwnResponseDto search(Long studyId, Long userId) {
         Study findStudy = studyRepository.findById(studyId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 스터디가 존재하지 않습니다."));
+
+        User findUser = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 유저가 존재하지 않습니다."));
 
         List<String> categoryList = findStudy.getCategoryStudies().stream()
                 .map(categoryStudy -> categoryStudy.getCategory())
@@ -76,16 +82,25 @@ public class StudyService {
                 .collect(Collectors.toList());
 
         return StudyOwnResponseDto.builder()
+                .studyId(findStudy.getId())
                 .subject(findStudy.getSubject())
                 .title(findStudy.getTitle())
                 .content(findStudy.getContent())
                 .userCount(findStudy.getUserCount())
                 .curUserCount(participationList.size())
                 .roomLink(findStudy.getRoomLink())
-                .studyStatus(findStudy.getStatus())
+                .studyStatus(findStudy.getStatus().getStatus())
                 .categoryList(categoryList)
                 .userName(userList)
+                .joinOrNot(userList.contains(findUser.getName()))
                 .build();
+    }
+
+    public Study getStudy(Long studyId) {
+        Study findStudy = studyRepository.findById(studyId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 스터디가 존재하지 않습니다."));
+
+        return findStudy;
     }
 
     /**

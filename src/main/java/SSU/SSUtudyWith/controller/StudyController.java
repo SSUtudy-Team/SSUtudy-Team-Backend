@@ -57,9 +57,9 @@ public class StudyController {
     /**
      * 스터디 조회
      */
-    @GetMapping("/api/v1/studies/{studyId}")
-    public ResponseEntity<ApiResponse> getStudy(@PathVariable("studyId") Long studyId) {
-        StudyOwnResponseDto response = studyService.search(studyId);
+    @GetMapping("/api/v1/studies/{studyId}/{userId}")
+    public ResponseEntity<ApiResponse> getStudy(@PathVariable("studyId") Long studyId, @PathVariable("userId") Long userId) {
+        StudyOwnResponseDto response = studyService.search(studyId, userId);
         return ResponseEntity.ok(ApiResponse.success("스터디 조회 성공", response));
     }
 
