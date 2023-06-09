@@ -6,7 +6,7 @@ import lombok.Getter;
 public enum StudyStatus {
     INVITING("모집중"),
     COMPLETE("모집완료"),
-    END("종료됌");
+    END("종료");
 
     private final String status;
 
