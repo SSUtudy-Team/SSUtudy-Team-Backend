@@ -34,7 +34,7 @@ public class ParticipationService {
         Study findStudy = studyRepository.findById(studyId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 스터디가 존재하지 않습니다."));
 
-        if((findStudy.getUserCount() - 1) == findUser.getParticipations().size()){
+        if((findStudy.getUserCount() - 1) == findStudy.getParticipations().size()){
             findStudy.changeStatus(StudyStatus.COMPLETE);
         }
         participationRepository.save(new Participation(findUser, findStudy));
