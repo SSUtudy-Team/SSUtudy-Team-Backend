@@ -21,6 +21,7 @@ public class ErrorHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiExceptionResponse> handleRuntime(RuntimeException e) {
         ApiExceptionResponse response = ApiExceptionResponse.fail(401, HttpStatus.BAD_REQUEST, "런타임 에러");
+        System.out.println(e);
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
